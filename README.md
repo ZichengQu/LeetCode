@@ -1,3 +1,5 @@
+**[此链接停止更新，新链接为https://gitee.com/zichengqu/LeetCode](https://gitee.com/zichengqu/LeetCode)** <br>
+
 **[Hot 100 题](Hot100/README.md)** <br>
 
 **[Hot 200 题(未开始)](Hot100/README.md)** <br>
