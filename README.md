@@ -1,5 +1,6 @@
-此GitHub的LeetCode停止更新，新链接为
-**[https://gitee.com/zichengqu/LeetCode](https://gitee.com/zichengqu/LeetCode)** <br>
+此GitHub的LeetCode停止更新，已使用LeetCode自带的笔记功能。
+
+该链接中只会记录标准基础算法: **[https://gitee.com/zichengqu/LeetCode](https://gitee.com/zichengqu/LeetCode)** <br>
 
 **[Hot 100 题](Hot100/README.md)** <br>
 
