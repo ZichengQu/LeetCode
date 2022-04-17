@@ -102,7 +102,7 @@ class Solution {
 
 /**
  * 堆排思想
- * O(kn * log(k))
+ * O(kn * log(k))，S(k)
  * 官解链接：https://leetcode-cn.com/problems/merge-k-sorted-lists/solution/he-bing-kge-pai-xu-lian-biao-by-leetcode-solutio-2/
  */
 class Solution {
@@ -139,5 +139,41 @@ class Solution {
             }
         }
         return head.next;
+    }
+}
+
+
+/**
+ * 自己的堆排思想
+ * O(kn * log(k))，S(kn)
+ * 这个思想，不使用上面的内部类，也可以将空间复杂度优化成 S(k)
+ */
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((ListNode n1, ListNode n2) -> {return n1.val - n2.val;});
+
+        for(int i = 0; i < lists.length; i++){
+            ListNode head = lists[i];
+            while(head != null){
+                pq.offer(head); // 将各 Node 按其 val 大小，从小到大，放入最小堆中
+                head = head.next;
+            }
+        }
+
+        // while(!pq.isEmpty()){
+        //     System.out.println(pq.poll().val);
+        // }
+
+        ListNode dummyHead = new ListNode();
+        ListNode head = dummyHead;
+
+        while(!pq.isEmpty()){
+            head.next = pq.poll(); // 一直从最小堆中取出最小的 Node
+            head = head.next;
+        }
+
+        head.next = null;
+
+        return dummyHead.next;
     }
 }

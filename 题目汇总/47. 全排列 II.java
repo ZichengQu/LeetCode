@@ -1,5 +1,37 @@
 class Solution {
     public List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> list = new LinkedList<>();
+
+        Arrays.sort(nums);
+
+        dfs(nums, list, new LinkedList<>(), new boolean[nums.length], 0);
+
+        return list;
+    }
+
+    private void dfs(int[] nums, List<List<Integer>> list, List<Integer> path, boolean[] used, int depth){
+        if(depth == nums.length){
+            list.add(new LinkedList<>(path));
+            return;
+        }
+
+        for(int i = 0; i < nums.length; i++){
+            if(used[i] || (i > 0 && nums[i] == nums[i - 1] && used[i - 1])){ // 后半部分是去重
+                continue;
+            }
+            path.add(nums[i]);
+            used[i] = true;
+
+            dfs(nums, list, path, used, depth + 1);
+
+            used[i] = false;
+            path.remove(path.size() - 1);
+        }
+    }
+}
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
         Set<List<Integer>> res = new HashSet<>();
         if(nums == null || nums.length == 0){
             return new LinkedList<List<Integer>>(res);
@@ -25,33 +57,3 @@ class Solution {
         }
     }
 }
-
-// class Solution {
-//     boolean[] vis;
-
-//     public List<List<Integer>> permuteUnique(int[] nums) {
-//         List<List<Integer>> ans = new ArrayList<List<Integer>>();
-//         List<Integer> perm = new ArrayList<Integer>();
-//         vis = new boolean[nums.length];
-//         Arrays.sort(nums);
-//         backtrack(nums, ans, 0, perm);
-//         return ans;
-//     }
-
-//     public void backtrack(int[] nums, List<List<Integer>> ans, int idx, List<Integer> perm) {
-//         if (idx == nums.length) {
-//             ans.add(new ArrayList<Integer>(perm));
-//             return;
-//         }
-//         for (int i = 0; i < nums.length; ++i) {
-//             if (vis[i] || (i > 0 && nums[i] == nums[i - 1] && !vis[i - 1])) {
-//                 continue;
-//             }
-//             perm.add(nums[i]);
-//             vis[i] = true;
-//             backtrack(nums, ans, idx + 1, perm);
-//             vis[i] = false;
-//             perm.remove(idx);
-//         }
-//     }
-// }

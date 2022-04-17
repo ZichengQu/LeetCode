@@ -29,11 +29,12 @@ class Solution {
     private void preorderTree(List<Integer> list, TreeNode root){
         if(root == null){
             return;
-        }else{
-            list.add(root.val);
-            preorderTree(list, root.left);
-            preorderTree(list, root.right);
         }
+
+        list.add(root.val);
+        preorderTree(list, root.left);
+        preorderTree(list, root.right);
+        
     }
 }
 

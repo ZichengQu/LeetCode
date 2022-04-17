@@ -38,11 +38,8 @@ class Solution {
 
 /**
  * 官解方法一 (已自我修改)
- * O(log(m+n)), S(1)
+ * O(log(m+n))
  * https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/xun-zhao-liang-ge-you-xu-shu-zu-de-zhong-wei-s-114/
- */
-/**
- * O(m + n)
  */
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {

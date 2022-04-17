@@ -31,11 +31,12 @@ class Solution {
     private void postorderTree(List<Integer> list, TreeNode root){
         if(root == null){
             return;
-        }else{
-            postorderTree(list, root.left);
-            postorderTree(list, root.right);
-            list.add(root.val);
         }
+
+        postorderTree(list, root.left);
+        postorderTree(list, root.right);
+        list.add(root.val);
+        
     }
 }
 

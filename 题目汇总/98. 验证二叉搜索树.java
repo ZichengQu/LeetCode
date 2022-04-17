@@ -81,3 +81,35 @@ class Solution {
         inorderDFS(root.right, list);
     }
 }
+
+/**
+ * 典型的错误思路，只考虑父结点，未考虑再上层
+ * 比如 [5,4,6,null,null,3,7]
+ * 判断 6 的左儿子 3 时，仍满足下面代码
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+
+        if(root.left != null && root.val <= root.left.val){
+            return false;
+        }
+        if(root.right != null && root.val >= root.right.val){
+            return false;
+        }
+
+        boolean flag1 = true;
+        boolean flag2 = true;
+        
+        if(root.left != null){
+            flag1 = isValidBST(root.left);
+        }
+        if(root.right != null){
+            flag2 = isValidBST(root.right);
+        }
+
+        return flag1 && flag2;
+    }
+}

@@ -40,6 +40,52 @@ class Solution {
     }
 }
 
+/**
+ * 自己的思路
+ */
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+
+        int left = binarySearchLeft(nums, target);
+        int right = binarySearchRight(nums, target);
+
+        if(left > right){
+            return new int[]{-1, -1};
+        }
+
+        return new int[]{left, right};
+    }
+
+    private int binarySearchLeft(int[] nums, int target){ // 找到max(num < target)
+        int left = 0;
+        int right = nums.length - 1;
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if(nums[mid] >= target){
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+            }
+        }
+
+        return right + 1; // return right 是找到max(num < target)，加 1 是找到第一个 target
+    }
+
+    private int binarySearchRight(int[] nums, int target){ // 找到min(num > target)
+        int left = 0;
+        int right = nums.length - 1;
+        while(left <= right){
+            int mid = (left + right) / 2;
+            if(nums[mid] <= target){
+                left = mid + 1;
+            }else{
+                right = mid - 1;
+            }
+        }
+
+        return left - 1;
+    }
+}
 
 /**
  * 自己的递归思路，没有题解好

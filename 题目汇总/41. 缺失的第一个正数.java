@@ -2,7 +2,7 @@ class Solution {
     public int firstMissingPositive(int[] nums) {
         for(int i = 0; i < nums.length; i++){
             if(nums[i] <= 0){
-                nums[i] = nums.length + 1; // 将 <= 0 的都改成 n+1
+                nums[i] = nums.length + 1; // 将 <= 0 的都改成 n + 1
             }
         }
         int index;

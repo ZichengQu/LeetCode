@@ -43,9 +43,13 @@ class Solution {
 
         int pIndex = inorderMap.get(rootVal);
 
-        root.left = buildTree(postorder, postLeft, (pIndex - 1 - inLeft) + postLeft, inorderMap, inLeft, pIndex - 1);
-        root.right = buildTree(postorder, (pIndex - 1 - inLeft) + postLeft + 1, inRight - (pIndex + 1) + ((pIndex - 1 - inLeft) + postLeft + 1), inorderMap, pIndex + 1, inRight);
-
+        // ? - postLeft = pIndex - 1 - inLeft
+        // ? = pIndex - 1 - inLeft + postLeft
+        // root.left = buildTree(postorder, postLeft, ?, inorderMap, inLeft, pIndex - 1);
+        // root.right = buildTree(postorder, ? + 1, postRight - 1, inorderMap, pIndex + 1, inRight);
+        root.left = buildTree(postorder, postLeft, pIndex - 1 - inLeft + postLeft, inorderMap, inLeft, pIndex - 1);
+        root.right = buildTree(postorder, pIndex - 1 - inLeft + postLeft + 1, postRight - 1, inorderMap, pIndex + 1, inRight);
+        
         return root;
     }
 }

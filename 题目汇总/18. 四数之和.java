@@ -60,39 +60,39 @@ class Solution {
 //  * O(n * n!)，时间复杂度太高
 //  * 还是用官方题解吧
 //  */
-// class Solution {
-//     public List<List<Integer>> fourSum(int[] nums, int target) {
-//         Set<List<Integer>> res = new HashSet<>();
-//         if(nums == null || nums.length == 0){
-//             return new ArrayList<List<Integer>>(res);
-//         }
-//         // Arrays.sort(nums);
-//         dfs(nums, res, new boolean[nums.length], 0, new ArrayList<Integer>(), target);
-//         return new ArrayList<List<Integer>>(res);
-//     }
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Set<List<Integer>> res = new HashSet<>();
+        if(nums == null || nums.length == 0){
+            return new ArrayList<List<Integer>>(res);
+        }
+        // Arrays.sort(nums);
+        dfs(nums, res, new boolean[nums.length], 0, new ArrayList<Integer>(), target);
+        return new ArrayList<List<Integer>>(res);
+    }
 
-//     private void dfs(int[] nums, Set<List<Integer>> res, boolean[] used, int depth, List<Integer> path, int target){
-//         if(depth == 4){
-//             int sum = 0;
-//             for(int num: path){
-//                 sum += num;
-//             }
-//             if(sum == target){
-//                 List<Integer> tempPath = new ArrayList(path);
-//                 Collections.sort(tempPath);
-//                 res.add(tempPath);
-//             }
-//             return;
-//         }
-//         for(int i = 0; i < nums.length; i++){
-//             if(used[i]){
-//                 continue;
-//             }
-//             path.add(nums[i]);
-//             used[i] = true;
-//             dfs(nums, res, used, depth + 1, path, target);
-//             path.remove(path.size() - 1);
-//             used[i] = false;
-//         }
-//     }
-// }
+    private void dfs(int[] nums, Set<List<Integer>> res, boolean[] used, int depth, List<Integer> path, int target){
+        if(depth == 4){
+            int sum = 0;
+            for(int num: path){
+                sum += num;
+            }
+            if(sum == target){
+                List<Integer> tempPath = new ArrayList(path);
+                Collections.sort(tempPath); // 为了哈希去重
+                res.add(tempPath);
+            }
+            return;
+        }
+        for(int i = 0; i < nums.length; i++){
+            if(used[i]){
+                continue;
+            }
+            path.add(nums[i]);
+            used[i] = true;
+            dfs(nums, res, used, depth + 1, path, target);
+            path.remove(path.size() - 1);
+            used[i] = false;
+        }
+    }
+}

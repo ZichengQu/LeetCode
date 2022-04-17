@@ -1,4 +1,42 @@
 /**
+ * 自己的思路
+ * O(n * log(n))
+ */
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        List<int[]> list = new ArrayList<>();
+
+        Arrays.sort(intervals, (int[] arr1, int[] arr2)->{
+            return arr1[0] == arr2[0]? arr1[1] - arr2[1]: arr1[0] - arr2[0]; // 先按start升序，若start相等则按end升序
+        });
+
+        for(int[] interval: intervals){
+            if(list.isEmpty()){ // 如果当前为空，则直接填入
+                list.add(interval);
+            }else{
+                int[] arr = list.get(list.size() - 1);
+                int preStart = arr[0]; // 前一个的开始
+                int preEnd = arr[1]; // 前一个的结束
+                int curStart = interval[0]; // 当前的开始
+                int curEnd = interval[1]; // 当前的结束
+
+                if(preStart <= curStart && preEnd >= curEnd){ // 当前完全被前一个包括 (preStart, curStart, curEnd, preEnd)
+                    continue;
+                }else if(curStart <= preEnd && preEnd <= curEnd){ // 当前和前一个的范围有重合 (preStart, curStart, preEnd, curEnd)
+                    list.set(list.size() - 1, new int[]{preStart, curEnd});
+                }else{ // 当前完全在前一个的后面 (preStart, preEnd, curStart, curEnd)
+                    list.add(interval);
+                }
+            }
+        }
+
+        int[][] res = list.toArray(new int[list.size()][2]);
+
+        return res;
+    }
+}
+
+/**
  * O(n * log(n))
  */
 class Solution {

@@ -43,6 +43,10 @@ class Solution {
 
         int pIndex = inorderMap.get(rootVal);
 
+        // pIndex - 1 - inLeft = ? - (preLeft + 1)
+        // ? = pIndex - 1 - inLeft + (preLeft + 1)
+        // root.left = buildTree(preorder, preLeft + 1, ?, inorderMap, inLeft, pIndex - 1);
+        // root.right = buildTree(preorder, ? + 1, preRight, inorderMap, pIndex + 1, inRight);
         root.left = buildTree(preorder, preLeft + 1, ((pIndex - 1) - inLeft) + (preLeft + 1), inorderMap, inLeft, pIndex - 1);
         root.right = buildTree(preorder, ((pIndex - 1) - inLeft) + (preLeft + 1) + 1, preRight, inorderMap, pIndex + 1, inRight);
 

@@ -24,19 +24,20 @@ class Solution {
  */
 class Solution {
     public int jump(int[] nums) {
-        int[] steps = new int[nums.length]; // 跳到第i个位置，所需要的step
+        int len = nums.length;
 
-        for(int i = 1; i < steps.length; i++){ // 除下标0的元素外 (因为动态规划需要提前求出子解，steps[0] = 0)
-            steps[i] = Integer.MAX_VALUE; // 初始化为最大值
-        }
+        int[] steps = new int[len]; // 跳到第i个位置，所需要的step
+        Arrays.fill(steps, Integer.MAX_VALUE); // 除下标0的元素外 (因为动态规划需要提前求出子解，steps[0] = 0)
+        steps[0] = 0;
 
-        for(int i = 0; i < nums.length; i++){
-            int maxStep = nums[i]; // 下标为i时能跳跃的最大距离
-            for(int j = 1; j <= maxStep && (i + j) < nums.length; j++){ // 最大距离内，并且steps数组不越界的情况下
-                steps[i + j] = Math.min(steps[i + j], 1 + steps[i]); // 哪个小，用哪个。加1是因为从steps[i]到这个steps[i + j]只需要1步跳跃，因为在最大跳跃范围之内。
+        for(int i = 1; i < len; i++){
+            for(int j = 0; j < i; j++){
+                if(i <= j + nums[j]){ // 如果从之前的某个位置 j 能跳到位置 i
+                    steps[i] = Math.min(steps[i], steps[j] + 1); // 哪个小，用哪个。加1是因为从steps[i]到这个steps[i + j]只需要1步跳跃
+                }
             }
         }
 
-        return steps[steps.length - 1];
+        return steps[len - 1];
     }
 }

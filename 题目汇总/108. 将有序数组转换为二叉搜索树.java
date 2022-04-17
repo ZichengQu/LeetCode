@@ -28,6 +28,7 @@ class Solution {
             return null;
         }
         int mid = (left + right) / 2; // 选择中间点作为此BST的根节点
+        // int mid = (left + right + 1) / 2; // 和力扣里给的输出形式是一致的，但这两种思路都是对的。
 
         TreeNode root = new TreeNode(nums[mid]);
 

@@ -20,3 +20,34 @@ class Solution {
         return length;
     }
 }
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Map<Character, Integer> hashMap = new HashMap<>(); // 字符，下标
+
+        int res = 0;
+
+        int start = 0; // 新的起始位置
+
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            if(hashMap.containsKey(ch)){
+                int index = hashMap.get(ch);
+
+                for(int j = start; j <= index; j++){
+                    hashMap.remove(s.charAt(j));
+                }
+
+                hashMap.put(ch, i);
+
+                start = index + 1;
+            }else{
+                hashMap.put(ch, i);
+            }
+
+            res = Math.max(res, hashMap.size());
+        }
+
+        return res;
+    }
+}

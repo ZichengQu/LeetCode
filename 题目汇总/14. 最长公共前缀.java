@@ -10,23 +10,25 @@ class Solution {
             return null;
         }
         
-        int minLength = Integer.MAX_VALUE;
-        for(int i = 0; i < strs.length; i++){ // 获取该字符串数组中的最短的字符串的长度
-            minLength = Math.min(minLength, strs[i].length());
+        int minLen = Integer.MAX_VALUE;
+
+        for(String str: strs){ // 获取该字符串数组中的最短的字符串的长度
+            minLen = Math.min(minLen, str.length());
         }
 
         int index = 0;
-        while(index < minLength){
+        while(index < minLen){
             for(int i = 1; i < strs.length; i++){ // 如果当前都一样，
-                if(strs[i - 1].charAt(index) == strs[i].charAt(index)){ // 第0位和第1位比较，第1位和第2位比较，....，第n-1位和第n位比较
+                if(strs[i].charAt(index) == strs[i - 1].charAt(index)){ // 第0位和第1位比较，第1位和第2位比较，....，第n-1位和第n位比较
                     continue;
-                }else{
-                    return strs[0].substring(0, index); // 如果有某两位的字符不相等了，则直接返回之前判断相等的部分
+                }else{ // 如果有某两位的字符不相等了，则直接返回之前判断相等的部分
+                    return strs[0].substring(0, index);
                 }
             }
             index++; // index位判断都相等之后，再次判断其下一位是否都相等
         }
-        return strs[0].substring(0, index);
+
+        return strs[0].substring(0, minLen);
     }
 }
 

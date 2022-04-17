@@ -83,7 +83,7 @@ class Solution {
 }
 
 /**
- * 错误示范，不能直接遍历其左右边界
+ * 错误示范，不能直接遍历其左右边界，也不能遍历左边界，长度。必须先遍历长度
  */
 // class Solution {
 //     public String longestPalindrome(String s) {

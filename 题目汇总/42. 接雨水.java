@@ -45,29 +45,35 @@ class Solution {
  */
 class Solution {
     public int trap(int[] height) {
-        Deque<Integer> stack = new LinkedList<>(); // 单调递减栈(其实可以严格递减，也可以非递增)
-
-        int rain = 0; // 结果
+        int sum = 0; // 结果
         
         int len = height.length;
+
+        Deque<Integer> stack = new ArrayDeque<>(); // 单调递减栈(其实可以严格递减，也可以非递增)
+
         for(int i = 0; i < len; i++){
-            while(!stack.isEmpty() && height[stack.peekLast()] < height[i]){ // 目前元素比栈中大，则弹栈，一直至当前元素 <= 栈中下标对应的元素。这是非递增栈。如果改成 height[stack.peekLast()] <= height[i]，就变成了递减栈。
-            // 逻辑不同，但结果一致。
-            // 非递增栈: height[stack.peekLast()] < height[i] 是后者比前者大，形成坑洼，才会有rain的增量。
-            // 递减栈: height[stack.peekLast()] <= height[i] 是后者>=前者，哪怕是平齐的，但计算currHeight时，其值为0，不影响rain的值。
-                int index = stack.pollLast(); // 取出当前值
-                if(stack.isEmpty()){ // 如果前面没有比当前值大的(栈为空)，则以为着没有雨水能积累在其上，直接break
-                    break;
+            if(stack.isEmpty()){
+                stack.push(i); // 栈空，则无条件增加
+            }else if(height[i] < height[stack.peek()]){
+                stack.push(i); // 单调栈，若递减，则增加
+            }else{ // height[i] >= height[stack.peek()] // 若该单调栈不递减了，则
+                while(!stack.isEmpty() && height[i] >= height[stack.peek()]){ // 把栈中小于等于当前高度的元素对应的下标都pop出去；这里将 height[i] >= height[stack.peek()] 换成 height[i] > height[stack.peek()] 也可以正确执行，只不过就不是严格的单调栈了，不过都可以
+                    // 逻辑不同，但结果一致。
+                    // 非递增栈: height[stack.peekLast()] < height[i] 是后者比前者大，形成坑洼，才会有rain的增量。
+                    // 递减栈: height[stack.peekLast()] <= height[i] 是后者>=前者，哪怕是平齐的，但计算currHeight时，其值为0，不影响rain的值。
+                    int midHeight = height[stack.pop()]; // 取出当前值
+                    if(stack.isEmpty()){ // 如果前面没有比当前值大的(栈为空)，则以为着没有雨水能积累在其上，直接break
+                        break;
+                    }
+                    int left = stack.peek(); // 取出index左侧 >= 下标为index的高度的
+                    sum += (Math.min(height[left], height[i]) - midHeight) * (i - left - 1);
                 }
-                int left = stack.peekLast(); // 取出index左侧 >= 下标为index的高度的
-                int currWidth = i - left - 1;
-                int currHeight = Math.min(height[left], height[i]) - height[index];
-                rain += currWidth * currHeight;
+                stack.push(i);
             }
-            stack.offerLast(i);
         }
 
-        return rain;
+        return sum;
+
     }
 }
 

@@ -32,11 +32,12 @@ class Solution {
     private void inorderTree(List<Integer> list, TreeNode root){
         if(root == null){
             return;
-        }else{
-            inorderTree(list, root.left);
-            list.add(root.val);
-            inorderTree(list, root.right);
         }
+
+        inorderTree(list, root.left);
+        list.add(root.val);
+        inorderTree(list, root.right);
+        
     }
 }
 

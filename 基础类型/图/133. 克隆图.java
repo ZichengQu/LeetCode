@@ -19,7 +19,7 @@ class Node {
 */
 
 /**
- * DFS
+ * DFS 思路 1
  */
 class Solution {
     public Node cloneGraph(Node node) {
@@ -34,7 +34,7 @@ class Solution {
             return visited.get(node);
         }
 
-        Node newNode = new Node(node.val, new ArrayList<Node>());
+        Node newNode = new Node(node.val);
 
         visited.put(node, newNode);
 
@@ -43,6 +43,35 @@ class Solution {
         }
 
         return newNode;
+    }
+}
+
+/**
+ * DFS 思路 2
+ */
+class Solution {
+    public Node cloneGraph(Node node) {
+        return deepCopy(node, new HashMap<Node, Node>());
+    }
+
+    private Node deepCopy(Node node, Map<Node, Node> hashMap){
+        if(node == null){
+            return null;
+        }
+
+        Node head = new Node(node.val);
+        hashMap.put(node, head);
+
+        for(Node temp: node.neighbors){
+            if(hashMap.containsKey(temp)){
+                head.neighbors.add(hashMap.get(temp));
+            }else{
+                head.neighbors.add(deepCopy(temp, hashMap));
+
+            }
+        }
+
+        return head;
     }
 }
 
@@ -61,23 +90,28 @@ class Solution {
             return null;
         }
 
-        Map<Node, Node> visited = new HashMap<>();
-        Queue<Node> nodeQueue = new LinkedList<>();
-        nodeQueue.offer(node);
-        visited.put(node, new Node(node.val, new ArrayList<Node>()));
+        Queue<Node> queue = new ArrayDeque<>();
+        queue.offer(node);
 
-        while(!nodeQueue.isEmpty()){
-            Node tempNode = nodeQueue.poll();
-            for(Node neighbour: tempNode.neighbors){
-                if(visited.containsKey(neighbour)){
-                    visited.get(tempNode).neighbors.add(visited.get(neighbour));
-                }else{
-                    visited.put(neighbour, new Node(neighbour.val, new ArrayList<Node>()));
-                    nodeQueue.add(neighbour);
-                    visited.get(tempNode).neighbors.add(visited.get(neighbour));
+        Node head = new Node(node.val);
+        Map<Node, Node> hashMap = new HashMap<>(); // ori, cur，方便通过原结点，找到对应的现在新的结点
+        hashMap.put(node, head);
+
+        while(!queue.isEmpty()){
+            Node oriNode = queue.poll(); // 原结点
+            Node curNode = hashMap.get(oriNode); // 现在新的结点
+            for(Node temp: oriNode.neighbors){
+                if(hashMap.containsKey(temp)){ // 如果之前扩展过该原结点，其实是判断是否 visited 的意思
+                    curNode.neighbors.add(hashMap.get(temp));
+                }else{ // 如果之前没扩展过该原结点
+                    Node newNode = new Node(temp.val);
+                    hashMap.put(temp, newNode);
+                    queue.offer(temp);
+                    curNode.neighbors.add(hashMap.get(temp)); // 为了方便理解，因此没有将共同部分提取出来
                 }
             }
         }
-        return visited.get(node);
+
+        return hashMap.get(node);
     }
 }
