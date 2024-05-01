@@ -8,7 +8,7 @@ class Solution {
         int len = nums.length;
         for(int i = 0; i < len - 1; i++){
             // boolean flag = true;
-            for(int j = 0; j < len - 1; j++){
+            for(int j = 0; j < len - 1 - i; j++){ // -i 的目的是：每次冒泡，当前循环的最后一位已经是最大的数了，因此无需再次判断最大数所在的范围。
                 if(nums[j] > nums[j + 1]){ // 如果左边的数大于右边的数，则交换，保证右边的数字最大
                     swap(nums, j, j + 1);
                     // flag = false;
