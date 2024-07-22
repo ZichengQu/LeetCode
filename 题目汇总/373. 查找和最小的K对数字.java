@@ -30,7 +30,7 @@ class Solution {
         // 最后将元素从最大堆中弹出，倒序插入数组即可
         for(int i = 0; i < k && pq.size() > 0; i++){
             int[] pair = pq.poll();
-            res.add(0, Arrays.asList(pair[0], pair[1]));
+            res.add(0, Arrays.asList(pair[0], pair[1])); // 因为pq是大顶堆，所以第一个被poll的是最大的，因此后来每个新poll的，都应该放到当前res里的第一位
             
         }
 
