@@ -172,7 +172,7 @@ class Solution {
             head = head.next;
         }
 
-        head.next = null;
+        head.next = null; // 因为堆排是不稳定的，所以会导致可能出现环circle
 
         return dummyHead.next;
     }
