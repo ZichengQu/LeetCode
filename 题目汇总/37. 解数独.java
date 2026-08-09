@@ -59,3 +59,177 @@ class Solution {
 
     }
 }
+
+// 下面是 C 语言的解法
+bool dfs(char** board, int boardSize, int* boardColSize, int loc);
+
+void solveSudoku(char** board, int boardSize, int* boardColSize) {
+    dfs(board, boardSize, boardColSize, 0);
+}
+
+bool isRowRepeat(char** board, int* boardColSize, int row, int col, char value) {
+    for (int i = 0; i < boardColSize[row]; i++) {
+        if (i == col)
+            continue;
+        if (board[row][i] == value)
+            return true;
+    }
+
+    return false;
+}
+
+bool isColRepeat(char** board, int boardSize, int row, int col, char value) {
+    for (int i = 0; i < boardSize; i++) {
+        if (i == row)
+            continue;
+        if (board[i][col] == value)
+            return true;
+    }
+
+    return false;
+}
+
+bool isUnitRepeat(char** board, int boardSize,
+                  int row, int col, char value) {
+    int unitSize = sqrt(boardSize);
+
+    int startRow = (row / unitSize) * unitSize;
+    int startCol = (col / unitSize) * unitSize;
+
+    for (int i = startRow; i < startRow + unitSize; i++) {
+        for (int j = startCol; j < startCol + unitSize; j++) {
+            if (i == row && j == col)
+                continue;
+
+            if (board[i][j] == value)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+bool isValid(char** board, int boardSize, int* boardColSize, int row, int col, char value) {
+    if (isRowRepeat(board, boardColSize, row, col, value)) {
+        // printf("isRowRepeat board[%d][%d] = [%c]\n", row, col, value);
+        return false;
+    }
+    if (isColRepeat(board, boardSize, row, col, value)) {
+        // printf("isColRepeat board[%d][%d] = [%c]\n", row, col, value);
+        return false;
+    }
+    if (isUnitRepeat(board, boardSize, row, col, value)) {
+        // printf("isUnitRepeat board[%d][%d] = [%c]\n", row, col, value);
+        return false;
+    }
+    return true;
+}
+
+bool dfs(char** board, int boardSize, int* boardColSize, int loc) {
+    int colSize = boardColSize[0];
+
+    if (loc == boardSize * colSize)
+        return true;
+
+    int row = loc / colSize;
+    int col = loc % colSize;
+
+    if (board[row][col] != '.')
+        return dfs(board, boardSize, boardColSize, loc + 1);
+
+    for (char num = '1'; num <= '9'; num++) {
+        if (!isValid(board, boardSize, boardColSize, row, col, num))
+            continue;
+
+        board[row][col] = num;
+
+        if (dfs(board, boardSize, boardColSize, loc + 1))
+            return true;
+
+        board[row][col] = '.';
+    }
+
+    return false;
+}
+
+// C 语言的第二种思路（其实也很类似）
+bool dfs(char** board, int boardSize, int* boardColSize);
+
+void solveSudoku(char** board, int boardSize, int* boardColSize) {
+    dfs(board, boardSize, boardColSize);
+}
+
+bool isRowRepeat(char** board, int* boardColSize, int row, int col, char value) {
+    for (int i = 0; i < boardColSize[row]; i++) {
+        if (i == col)
+            continue;
+        if (board[row][i] == value)
+            return true;
+    }
+
+    return false;
+}
+
+bool isColRepeat(char** board, int boardSize, int row, int col, char value) {
+    for (int i = 0; i < boardSize; i++) {
+        if (i == row)
+            continue;
+        if (board[i][col] == value)
+            return true;
+    }
+
+    return false;
+}
+
+bool isUnitRepeat(char** board, int row, int col, char value) {
+    int x = row % 3;
+    x = row - x;
+    int y = col % 3;
+    y = col - y;
+
+    for (int i = x; i < x + 3; i++) {
+        for (int j = y; j < y + 3; j++) {
+            if (i == row && j == col)
+                continue;
+            if (board[i][j] == value)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+bool isValid(char** board, int boardSize, int* boardColSize, int row, int col, char value) {
+    if (isRowRepeat(board, boardColSize, row, col, value)) {
+        // printf("isRowRepeat board[%d][%d] = [%c]\n", row, col, value);
+        return false;
+    }
+    if (isColRepeat(board, boardSize, row, col, value)) {
+        // printf("isColRepeat board[%d][%d] = [%c]\n", row, col, value);
+        return false;
+    }
+    if (isUnitRepeat(board, row, col, value)) {
+        // printf("isUnitRepeat board[%d][%d] = [%c]\n", row, col, value);
+        return false;
+    }
+    return true;
+}
+
+bool dfs(char** board, int boardSize, int* boardColSize) {
+    for (int i = 0; i < boardSize; i++) {
+        for (int j = 0; j < boardColSize[i]; j++) {
+            if (board[i][j] != '.')
+                continue;
+            for (char k = '1'; k <= '9'; k++) {
+                if (!isValid(board, boardSize, boardColSize, i, j, k))
+                    continue;
+                board[i][j] = k;
+                if (dfs(board, boardSize, boardColSize))
+                    return true;
+                board[i][j] = '.';
+            }
+            return false;
+        }
+    }
+    return true;
+}
