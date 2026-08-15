@@ -18,11 +18,15 @@ class Solution {
             }
             return;
         }
+
+        // 1. 选择当前元素的条件
         if (nums[cur] >= last) {
             temp.add(nums[cur]);
             dfs(cur + 1, nums[cur], nums);
             temp.remove(temp.size() - 1);
         }
+
+        // 2. 不选择当前元素的条件，为避免重复，如果元素间相等，就要么全选，要么全不选，避免“挑选”相等的数字，造成结果的重复
         if (nums[cur] != last) {
             dfs(cur + 1, last, nums);
         }
