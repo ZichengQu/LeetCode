@@ -38,6 +38,54 @@ class Solution {
     }
 }
 
+class Solution {
+    private List<Integer> lefts;
+    private List<Integer> stars;
+
+    public boolean checkValidString(String s) {
+        int len = s.length();
+        lefts = new ArrayList<>(len);
+        stars = new ArrayList<>(len);
+
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(i);
+            if (c == '(')
+                lefts.add(i);
+            if (c == ')') {
+                if (lefts.size() > 0)
+                    lefts.remove(lefts.size() - 1);
+                else if (stars.size() > 0)
+                    stars.remove(0);
+                else
+                    return false;
+            }
+            if (c == '*')
+                stars.add(i);
+        }
+
+        // System.out.println(lefts);
+        // System.out.println(stars);
+
+        while (lefts.size() > 0) {
+            int left = lefts.remove(0);
+            boolean flag = false;
+
+            while (stars.size() != 0) {
+                int star = stars.remove(0);
+                if (star > left) {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (!flag)
+                return false;
+        }
+
+        return true;
+    }
+}
+
 /**
  * 栈
  * O(n), S(n)
